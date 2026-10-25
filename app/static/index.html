@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ask HR & IT</title>
+<style>
+body{margin:0;padding:20px 24px;font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;color:#222;background:#fff}
+h1{font-size:18px;margin:0 0 4px}
+.top{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.top .who{margin-left:auto;color:#555}
+select,input,button{font:inherit}
+form{display:flex;gap:8px}
+#q{flex:1;padding:7px 9px;border:1px solid #bbb;border-radius:3px}
+button{padding:7px 14px;border:1px solid #1a5fd0;background:#1a5fd0;color:#fff;border-radius:3px;cursor:pointer}
+button:disabled{opacity:.6}
+.demo{display:none;align-items:center;gap:6px;margin:8px 0 0;color:#666;font-size:13px}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+.box{border:1px solid #ddd;padding:12px 14px}
+.label{font-size:12px;color:#777;margin-bottom:6px}
+.answer{font-size:15px;min-height:40px}
+.answer.empty{color:#999}
+.cite{color:#1a5fd0;cursor:pointer;font-size:12px;vertical-align:2px}
+.banner{display:none;margin:10px 0 0;color:#b42318}
+.banner.warn{display:block}
+.meta{color:#888;font-size:12px;margin-top:8px}
+table{width:100%;border-collapse:collapse;margin-top:12px;font-size:13px}
+td{padding:6px 4px;border-top:1px solid #eee}
+tr.src{cursor:pointer}
+tr.src:hover{background:#f7f7f7}
+tr.src.on{background:#eef4ff}
+td.path{font-family:ui-monospace,Menlo,monospace}
+td.r{text-align:right;color:#666;white-space:nowrap}
+.chip.restricted{color:#b42318;font-weight:600}
+.file{font-family:ui-monospace,Menlo,monospace;color:#444}
+.doc h3{font-size:16px;margin:10px 0 6px}
+.doc p{margin:0;line-height:1.7}
+.doc .t{color:#888;font-size:12px}
+mark{background:#fff0a0}
+.locked{color:#b42318;padding:30px 0;text-align:center}
+.placeholder{color:#999}
+@media (max-width:800px){.cols{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="top"><h1>Ask HR &amp; IT</h1><span class="who">Signed in as <select id="user"></select><span id="avatar" hidden></span></span></div>
+<form id="f">
+  <input id="q" autocomplete="off" placeholder="Ask a question" value="How many weeks of maternity leave do I get?">
+  <button id="go">Ask</button>
+</form>
+<label class="demo" id="demo"><input type="checkbox" id="fv"> Demo: first version, no permission filter</label>
+<div class="cols">
+  <div class="box">
+    <div class="label">Answer</div>
+    <div class="answer empty" id="answer">Ask a question.</div>
+    <div class="banner" id="banner"></div>
+    <div class="meta" id="meta"></div>
+    <table id="sources"></table>
+  </div>
+  <div class="box">
+    <div class="label">Source <span class="file" id="file"></span> <span id="pgno"></span></div>
+    <div id="canvas" class="doc"><div class="placeholder">The source page opens here.</div></div>
+  </div>
+</div>
+<script>
+const $ = id => document.getElementById(id);
+const esc = s => s.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let current = null;
+
+async function api(path, opts = {}) {
+  const r = await fetch(path, {...opts, headers: {'Content-Type': 'application/json', 'X-User': $('user').value, ...(opts.headers || {})}});
+  return {status: r.status, data: await r.json().catch(() => ({}))};
+}
+
+async function init() {
+  const users = await (await fetch('/users')).json();
+  $('user').innerHTML = users.map(u => `<option value="${u.id}">${u.id} · ${u.groups.join(', ')}</option>`).join('');
+  const cfg = await (await fetch('/config')).json();
+  if (cfg.first_version_demo) $('demo').style.display = 'flex';
+  $('user').onchange = () => { const id = $('user').value.replace(/[^a-z0-9]/gi, ''); $('avatar').textContent = (id[0] + id.slice(-1)).toUpperCase(); };
+}
+
+$('f').onsubmit = async e => {
+  e.preventDefault();
+  const q = $('q').value.trim(); if (!q) return;
+  $('go').disabled = true; $('answer').className = 'answer empty'; $('answer').textContent = 'Searching…';
+  const {data} = await api('/ask', {method: 'POST', body: JSON.stringify({question: q, first_version: $('fv').checked})});
+  $('go').disabled = false;
+  render(q, data);
+};
+
+function render(q, d) {
+  const text = esc(d.answer || '').replace(/\[(\d+)\]/g, '<span class="cite" data-n="$1">[$1]</span>');
+  $('answer').className = 'answer'; $('answer').innerHTML = text;
+  const restricted = (d.sources || []).filter(s => !canRead(s));
+  $('banner').className = 'banner' + (restricted.length ? ' warn' : '');
+  $('banner').textContent = restricted.length ? `${restricted.length} source${restricted.length > 1 ? 's' : ''} came from pages ${$('user').value} is not allowed to open.` : '';
+  $('meta').textContent = [d.took_ms != null ? `${Math.round(d.took_ms)} ms` : '', d.cached ? 'from cache' : '', `${(d.sources || []).length} sources`].filter(Boolean).join(' · ');
+  $('sources').innerHTML = (d.sources || []).map(s => `
+    <tr class="src" data-n="${s.n}"><td>${s.n}</td><td class="path">${esc(s.doc_id)}</td><td class="r">p. ${s.page}</td>
+      <td class="r"><span class="chip ${canRead(s) ? '' : 'restricted'}">${canRead(s) ? '' : 'no access: '}${esc((s.readers || []).join(', '))}</span></td></tr>`).join('');
+  document.querySelectorAll('tr.src, .cite').forEach(el => el.onclick = () => open(+el.dataset.n, q, d));
+  if (d.sources && d.sources.length) open(1, q, d);
+}
+
+function canRead(s) { return s.can_open !== false; }
+
+async function open(n, q, d) {
+  const s = d.sources[n - 1]; current = s;
+  document.querySelectorAll('tr.src').forEach(el => el.classList.toggle('on', +el.dataset.n === n));
+  $('file').textContent = s.doc_id; $('pgno').textContent = `· page ${s.page}`;
+  const {status, data} = await api(`/doc?doc_id=${encodeURIComponent(s.doc_id)}&page=${s.page}`);
+  if (current !== s) return;
+  if (status === 403) {
+    $('canvas').innerHTML = `<div class="locked">403 · You do not have access to this page. Readers: ${esc((s.readers || []).join(', '))}</div>`;
+    return;
+  }
+  $('canvas').innerHTML = `<div class="t">${esc(data.title)}</div><h3>${data.page}. ${esc(data.heading)}</h3><p>${highlight(data.text, q)}</p>`;
+}
+
+function highlight(text, q) {
+  // Mark the sentence that shares the most words with the question.
+  const words = new Set(q.toLowerCase().match(/[a-z0-9]{3,}/g) || []);
+  const parts = text.match(/[^.!?]+[.!?]*/g) || [text];
+  let best = -1, score = 0;
+  parts.forEach((p, i) => { const s = (p.toLowerCase().match(/[a-z0-9]{3,}/g) || []).filter(w => words.has(w) || /\d/.test(w)).length; if (s > score) { score = s; best = i; } });
+  return parts.map((p, i) => i === best ? `${p.match(/^\s*/)[0]}<mark>${esc(p.trim())}</mark>` : esc(p)).join('');
+}
+
+init();
+</script>
+</body>
+</html>

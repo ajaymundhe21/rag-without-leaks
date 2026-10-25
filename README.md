@@ -30,6 +30,8 @@ curl -X POST localhost:8000/ask -H 'X-User: emp-1' -H 'Content-Type: application
      -d '{"question": "How many weeks of maternity leave do I get?"}'
 ```
 
+Or open **http://localhost:8000**: ask a question, switch the signed-in user, and the source page opens next to the answer. The *Demo: first version* switch turns the permission filter off so you can see the leak; set `DEMO_FIRST_VERSION=0` to hide it.
+
 Users are in `data/identity.json` (a stand-in for Okta or Entra ID): `emp-1` is in engineering, `board-1` is on the board, `other-1` works at a different company. Without `LLM_API_KEY` the bot returns the best chunk with its source; set the key (any OpenAI-compatible API) to get a written answer with citations.
 
 ## How it works

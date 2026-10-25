@@ -15,14 +15,18 @@ def _prompt(question: str, chunks: list[dict]) -> list[dict]:
 
 
 def sources(chunks: list[dict]) -> list[dict]:
-    return [{"n": i, "doc_id": c["doc_id"], "page": c["page"]} for i, c in enumerate(chunks, 1)]
+    return [{"n": i, "doc_id": c["doc_id"], "page": c["page"], "readers": c.get("readers", [])}
+            for i, c in enumerate(chunks, 1)]
 
 
 def write(question: str, chunks: list[dict]) -> str:
     chunks = chunks[:ANSWER_CHUNKS]
     if not LLM_API_KEY:
         # No model configured: return the best chunk itself, with its source.
-        return f"{chunks[0]['text']} [1]"
+        text = chunks[0]["text"]
+        if " · " in text:  # drop the "Title · Heading." prefix we store for search
+            text = text.split(" · ", 1)[1].split(". ", 1)[-1]
+        return f"{text} [1]"
     resp = httpx.post(f"{LLM_BASE_URL}/chat/completions", timeout=60,
                       headers={"Authorization": f"Bearer {LLM_API_KEY}"},
                       json={"model": LLM_MODEL, "messages": _prompt(question, chunks), "temperature": 0})

@@ -8,14 +8,14 @@ from .db import tenant_tx
 from .embed import embed_one
 
 WORD_SQL = """
-SELECT id, doc_id, page, text
+SELECT id, doc_id, page, text, readers
 FROM chunks, plainto_tsquery('english', %(q)s) query
 WHERE tenant_id = %(t)s AND readers && %(g)s AND tsv @@ query
 ORDER BY ts_rank(tsv, query) DESC
 LIMIT %(k)s"""
 
 MEANING_SQL = """
-SELECT id, doc_id, page, text, 1 - (embedding <=> %(v)s) AS score
+SELECT id, doc_id, page, text, readers, 1 - (embedding <=> %(v)s) AS score
 FROM chunks
 WHERE tenant_id = %(t)s AND readers && %(g)s
 ORDER BY embedding <=> %(v)s
@@ -46,6 +46,25 @@ def search(tenant_id: int, groups: list[str], question: str, k: int = TOP_K) -> 
         else:
             conn.execute(f"SET LOCAL hnsw.ef_search = {int(EF_SEARCH)}")
         meaning = conn.execute(MEANING_SQL, p).fetchall()
-    best = {r[0]: r[4] for r in meaning}
-    return [{"id": r[0], "doc_id": r[1], "page": r[2], "text": r[3], "meaning_score": round(float(best.get(r[0], 0)), 3)}
-            for r in rrf(meaning, words)]
+    return _rows(rrf(meaning, words), {r[0]: r[5] for r in meaning})
+
+
+def _rows(rows, best):
+    return [{"id": r[0], "doc_id": r[1], "page": r[2], "text": r[3], "readers": list(r[4]),
+             "meaning_score": round(float(best.get(r[0], 0)), 3)} for r in rows]
+
+
+FIRST_VERSION_SQL = """
+SELECT id, doc_id, page, text, readers, 1 - (embedding <=> %(v)s) AS score
+FROM chunks
+WHERE tenant_id = %(t)s
+ORDER BY embedding <=> %(v)s
+LIMIT %(k)s"""
+
+
+def search_first_version(tenant_id: int, question: str, k: int = TOP_K) -> list[dict]:
+    """Demo only: the closest chunks with no permission check. This is the leak."""
+    p = {"v": embed_one(question), "t": tenant_id, "k": k}
+    with tenant_tx(tenant_id) as conn:
+        rows = conn.execute(FIRST_VERSION_SQL, p).fetchall()
+    return _rows(rows, {r[0]: r[5] for r in rows})

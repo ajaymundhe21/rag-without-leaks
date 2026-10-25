@@ -14,3 +14,6 @@ CACHE_SECONDS = int(os.getenv("CACHE_SECONDS", "300"))
 LLM_BASE_URL = os.getenv("LLM_BASE_URL", "https://api.openai.com/v1")
 LLM_API_KEY = os.getenv("LLM_API_KEY", "")
 LLM_MODEL = os.getenv("LLM_MODEL", "gpt-4o-mini")
+
+# Shows a "first version" switch in the web page that turns the permission filter off. For demos only.
+DEMO_FIRST_VERSION = os.getenv("DEMO_FIRST_VERSION", "1") == "1"
