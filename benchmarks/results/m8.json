@@ -1,0 +1,15 @@
+{
+ "concurrent_two_writers_lock_False_page12_rows": 2,
+ "concurrent_two_writers_lock_True_page12_rows": 1,
+ "forgot_tenant_filter_without_rls_tenants_seen": 10,
+ "forgot_tenant_filter_with_rls_tenants_seen": 1,
+ "iterative_scan_recall_vs_exact_filtered": 0.452,
+ "exact_filtered_seqscan_ms": 9.9,
+ "iter_ef40_recall": 1.0,
+ "iter_ef40_ms": 5.8,
+ "iter_ef200_recall": 1.0,
+ "iter_ef200_ms": 5.7,
+ "iter_ef400_recall": 1.0,
+ "iter_ef400_ms": 5.4,
+ "exact_small_group_subquery_ms": 7.7
+}

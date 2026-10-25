@@ -1,0 +1,70 @@
+"""Demo dataset for the RAG video. Made up for the demo; not any real company's documents."""
+
+# HR handbook: (page, heading, body). Page 12 holds the parental leave table.
+HANDBOOK = [
+ (1, "Welcome", "This handbook explains how we work, what you can expect from the company, and what the company expects from you. Read it in your first week and keep it handy."),
+ (2, "Working hours", "Our core hours are 10 AM to 4 PM. Outside core hours you can plan your day with your team. Tell your manager if you will be away during core hours."),
+ (3, "Work from home policy", "You can work from home two days a week. Agree the days with your team. On office days, book a desk in the desk app before 9 AM."),
+ (4, "Attendance", "Mark your attendance in the HR portal every working day. If you forget, your manager can correct it within seven days."),
+ (5, "Dress code", "Wear what is comfortable and suitable for meeting customers. On customer visit days, wear formal clothes."),
+ (6, "Probation", "New employees are on probation for three months. At the end of probation, your manager reviews your work and confirms you."),
+ (7, "Annual leave", "Every employee gets 18 days of annual leave each calendar year. Leave is added at 1.5 days per month. Apply at least one week in advance."),
+ (8, "Sick leave", "You get 10 days of paid sick leave each year. For more than two days in a row, upload a doctor's note in the HR portal."),
+ (9, "Public holidays", "The company follows the public holiday list for your office city. The list for the year is in the HR portal."),
+ (10, "Leave approval", "Your manager approves leave in the HR portal. If your manager is away, the request goes to their manager after three days."),
+ (11, "Bereavement leave", "You get 5 days of paid leave on the death of a close family member. Tell your manager and apply in the HR portal."),
+ (12, "Parental leave", "Parental leave is for all staff, of any gender, on the birth or adoption of a child. Staff get 12 weeks of paid leave. You can take it in one block or in two parts within the first year."),
+ (13, "Returning from leave", "When you return from long leave, your manager plans a two-week ramp-up with lighter work."),
+ (14, "Expense claims", "Submit expense claims within 30 days with the receipt. Claims above 10,000 rupees need your manager's approval."),
+ (15, "Travel policy", "Book travel through the travel desk. Economy class for flights under six hours. Hotels within the city limit set by finance."),
+ (16, "Laptop and equipment", "You get a company laptop on your first day. Report loss or damage to IT within 24 hours."),
+ (17, "Laptop reimbursement", "If you buy approved accessories like a monitor or keyboard, you can claim up to 15,000 rupees once every three years."),
+ (18, "Internet allowance", "Employees who work from home get an internet allowance of 1,000 rupees per month, paid with salary."),
+ (19, "Salary and payroll", "Salary is paid on the last working day of the month. Your payslip is in the HR portal."),
+ (20, "Bonus", "The yearly bonus depends on company and individual performance. It is paid in April."),
+ (21, "Performance reviews", "Reviews happen twice a year, in April and October. You and your manager agree goals at the start of each half."),
+ (22, "Promotions", "Promotions are decided once a year after the April review. Your manager nominates you with examples of your work."),
+ (23, "Learning budget", "Each employee has a learning budget of 25,000 rupees per year for courses, books and conferences."),
+ (24, "Health insurance", "You, your spouse and two children are covered by group health insurance up to 5 lakh rupees per year."),
+ (25, "Code of conduct", "Treat everyone with respect. Harassment of any kind is not accepted. Report concerns to HR or the ethics line."),
+ (26, "Information security", "Lock your screen when you leave your desk. Never share your password. Report phishing emails to the security team."),
+ (27, "Data privacy", "Customer data can be used only for the purpose it was collected for. Do not copy customer data to personal devices."),
+ (28, "Notice period", "After confirmation, the notice period is 60 days for both the employee and the company."),
+ (29, "Exit process", "On your last day, return your laptop and badge. Your full and final settlement is paid within 45 days."),
+ (30, "Referral bonus", "If someone you refer joins and completes probation, you get a referral bonus of 50,000 rupees."),
+ (31, "Office access", "Your badge opens the office between 7 AM and 10 PM. For weekend access, ask the facilities team."),
+ (32, "Cafeteria", "Lunch is served from 12:30 to 2:30 PM. Tea and coffee are free all day."),
+ (33, "Transport", "The company runs shuttles from the metro station every 20 minutes between 8 AM and 11 AM."),
+ (34, "Moonlighting", "You need written approval from HR before taking any paid work outside the company."),
+ (35, "Conflict of interest", "Tell HR if a family member works for a customer, a vendor or a competitor."),
+ (36, "Gifts", "You can accept gifts worth up to 2,000 rupees from customers or vendors. Declare anything above that to HR."),
+ (37, "Social media", "Do not post confidential company information on social media. Say that your views are your own."),
+ (38, "Grievance process", "Raise a grievance with your manager first. If it is not resolved in 15 days, raise it with HR."),
+ (39, "Wellness", "Every employee gets six free sessions per year with a counsellor through the wellness partner."),
+ (40, "Contacts", "For HR questions write to hr-help. For IT write to it-help. For payroll write to payroll-help."),
+]
+
+# Restricted page: only the board can read it.
+BOARD_PAGE = (
+ "Board compensation plan FY27, section 4: Parental leave changes for next year",
+ "The board has approved a change to parental leave for next year. Parental leave will move from 12 weeks to 16 weeks of paid leave for all staff, and the cost of parental leave per employee is estimated in the table below, along with the leave policy comparison with other companies.",
+)
+
+# Error-code pages (IT knowledge base). Each page explains one code.
+ERROR_TOPICS = [
+ ("printer", "The printer tray is empty. Add paper to tray 2 and press resume."),
+ ("printer", "The printer cannot reach the print server. Restart the printer and try again."),
+ ("VPN", "The VPN client cannot reach the gateway. Check your internet connection and reconnect."),
+ ("VPN", "Your VPN certificate has expired. Open the IT portal and renew the certificate."),
+ ("login", "Your password has expired. Reset it from the login page using your phone."),
+ ("login", "Your account is locked after five wrong passwords. Wait 15 minutes or call IT."),
+ ("email", "Your mailbox is full. Delete old emails or archive them to free space."),
+ ("laptop", "The laptop disk is almost full. Delete large files or move them to the drive."),
+]
+def error_pages():
+    out = []
+    for i in range(40):
+        topic, fix = ERROR_TOPICS[i % len(ERROR_TOPICS)]
+        code = f"E40{i:02d}"
+        out.append((code, f"Error {code} ({topic})", f"If you see error {code} on your screen, here is what it means. {fix}"))
+    return out

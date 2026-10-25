@@ -1,0 +1,18 @@
+{
+  "note": "Stand-in for the company's identity system (Okta, Entra ID). Groups sit inside groups.",
+  "groups": {
+    "engineering": ["product"],
+    "product": ["all-staff"],
+    "board": ["all-staff"],
+    "exec": ["all-staff"],
+    "finance": ["all-staff"],
+    "legal": ["all-staff"],
+    "all-staff": []
+  },
+  "users": {
+    "emp-1":   {"tenant": 1, "groups": ["engineering"]},
+    "board-1": {"tenant": 1, "groups": ["board"]},
+    "legal-1": {"tenant": 1, "groups": ["legal"]},
+    "other-1": {"tenant": 2, "groups": ["engineering"]}
+  }
+}

@@ -1,0 +1,19 @@
+{
+ "load_and_embed_s": 113.2,
+ "brute_ms_250000": 137.8,
+ "brute_ms_500000": 268.9,
+ "brute_ms_1000000": 502.5,
+ "hnsw_build_s": 219.7,
+ "table_mb": 1116,
+ "index_mb": 1300,
+ "hnsw_ms_ef40": 1.9,
+ "hnsw_recall_ef40": 0.699,
+ "hnsw_ms_ef100": 2.5,
+ "hnsw_recall_ef100": 0.91,
+ "hnsw_ms_ef200": 3.9,
+ "hnsw_recall_ef200": 0.965,
+ "strict_rows_off": 0.45,
+ "strict_ms_off": 1.2,
+ "strict_rows_relaxed_order": 50.0,
+ "strict_ms_relaxed_order": 110.6
+}

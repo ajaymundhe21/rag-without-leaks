@@ -1,0 +1,31 @@
+{
+ "pypdf_output": "12. Leave table\nLeave type\nWeeks\nWho can take it\nParental\n12\nAll staff\nMedical\n8\nAll staff\nBereavement\n1\nAll staff\n",
+ "pypdf_version": "5.9.0",
+ "pdfplumber_table": [
+  [
+   "Leave type",
+   "Weeks",
+   "Who"
+  ],
+  [
+   "Parental",
+   "12",
+   "All st"
+  ],
+  [
+   "Medical",
+   "8",
+   "All st"
+  ],
+  [
+   "Bereavement",
+   "1",
+   "All st"
+  ]
+ ],
+ "rows_with_names": [
+  "Leave type: Parental \u00b7 Weeks: 12 \u00b7 Who: All st",
+  "Leave type: Medical \u00b7 Weeks: 8 \u00b7 Who: All st",
+  "Leave type: Bereavement \u00b7 Weeks: 1 \u00b7 Who: All st"
+ ]
+}

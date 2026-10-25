@@ -1,0 +1,17 @@
+name: leak-test
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Start Postgres, Redis and the API
+        run: docker compose up -d --build --wait
+      - name: Load the demo documents
+        run: docker compose exec -T api python -m app.ingest data/docs --tenant 1
+      - name: Leak test and golden questions
+        run: docker compose exec -T api python -m eval.run
+      - name: Tests
+        run: docker compose exec -T api pytest -q
+      - name: Leak demo
+        run: docker compose exec -T api python -m scripts.leak_demo

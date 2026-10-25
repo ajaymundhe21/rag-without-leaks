@@ -1,0 +1,55 @@
+{
+ "word_search_maternity_hits": 0,
+ "score_whole_handbook": 0.3781648576259613,
+ "score_page12": 0.4898679256439209,
+ "score_wfh_page3": 0.182608500123024,
+ "rank_page12_among_40": 1,
+ "whole_handbook_words": 870,
+ "wfh_question_vs_whole": 0.1313726007938385,
+ "chunk_strategies": {
+  "one_sentence": {
+   "chunks": 117,
+   "top1_correct": 14,
+   "top3_correct": 17,
+   "of": 21,
+   "maternity": {
+    "top1_text": "Staff get 12 weeks of paid leave.",
+    "top1_has_answer": true,
+    "top1_score": 0.5702839493751526
+   }
+  },
+  "by_heading": {
+   "chunks": 40,
+   "top1_correct": 19,
+   "top3_correct": 19,
+   "of": 21,
+   "maternity": {
+    "top1_text": "Parental leave. Parental leave is for all staff, of any gender, on the birth or adoption of a child. Staff get 12 weeks of paid leave. You can take it in one block or in two parts within the first year.",
+    "top1_has_answer": true,
+    "top1_score": 0.4898678958415985
+   }
+  },
+  "three_pages": {
+   "chunks": 14,
+   "top1_correct": 19,
+   "top3_correct": 20,
+   "of": 21,
+   "maternity": {
+    "top1_text": "Leave approval. Your manager approves leave in the HR portal. If your manager is away, the request goes to their manager after three days. Bereavement leave. You get 5 days of paid leave on the death of a close family member. Tell your manager and apply in the HR portal. Parental leave. Parental leave is for all staff, of any gender, on the birth or adoption of a child. Staff get 12 weeks of paid leave. You can take it in one block or in two parts within the first year.",
+    "top1_has_answer": true,
+    "top1_score": 0.5285892486572266
+   }
+  },
+  "heading_plus_overlap": {
+   "chunks": 40,
+   "top1_correct": 17,
+   "top3_correct": 19,
+   "of": 21,
+   "maternity": {
+    "top1_text": "At the end of probation, your manager reviews your work and confirms you. Annual leave. Every employee gets 18 days of annual leave each calendar year. Leave is added at 1.5 days per month. Apply at least one week in advance.",
+    "top1_has_answer": false,
+    "top1_score": 0.4793577194213867
+   }
+  }
+ }
+}

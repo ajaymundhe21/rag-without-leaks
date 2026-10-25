@@ -1,0 +1,22 @@
+{"question": "How many weeks of maternity leave do I get?", "doc_id": "hr/hr-handbook", "page": 12, "must_contain": "12 weeks"}
+{"question": "How many days can I work remotely?", "doc_id": "hr/hr-handbook", "page": 3, "must_contain": "two days a week"}
+{"question": "How much is the reward for referring a friend?", "doc_id": "hr/hr-handbook", "page": 30, "must_contain": "50,000"}
+{"question": "When does my salary come?", "doc_id": "hr/hr-handbook", "page": 19, "must_contain": "last working day"}
+{"question": "Do I get paid time off when someone in my family dies?", "doc_id": "hr/hr-handbook", "page": 7, "must_contain": "5 days"}
+{"question": "How much can I spend on courses and books?", "doc_id": "hr/hr-handbook", "page": 23, "must_contain": "25,000"}
+{"question": "Is my wife covered by medical insurance?", "doc_id": "hr/hr-handbook", "page": 24, "must_contain": "spouse"}
+{"question": "How long is my notice when I resign?", "doc_id": "hr/hr-handbook", "page": 28, "must_contain": "60 days"}
+{"question": "Is there a bus from the metro station?", "doc_id": "hr/hr-handbook", "page": 33, "must_contain": "shuttles"}
+{"question": "Can I do freelance work on weekends?", "doc_id": "hr/hr-handbook", "page": 34, "must_contain": "written approval"}
+{"question": "How many vacation days do I get in a year?", "doc_id": "hr/hr-handbook", "page": 7, "must_contain": "18 days"}
+{"question": "When do appraisals happen?", "doc_id": "hr/hr-handbook", "page": 21, "must_contain": "April and October"}
+{"question": "What do I do if I lose my laptop?", "doc_id": "hr/hr-handbook", "page": 16, "must_contain": "24 hours"}
+{"question": "Can I get money back for a new monitor?", "doc_id": "hr/hr-handbook", "page": 17, "must_contain": "15,000"}
+{"question": "Do I get money for wifi at home?", "doc_id": "hr/hr-handbook", "page": 18, "must_contain": "1,000 rupees"}
+{"question": "How many days off do I get when I am ill?", "doc_id": "hr/hr-handbook", "page": 8, "must_contain": "10 days"}
+{"question": "What time does lunch start?", "doc_id": "hr/hr-handbook", "page": 32, "must_contain": "12:30"}
+{"question": "Can I accept a present from a vendor?", "doc_id": "hr/hr-handbook", "page": 36, "must_contain": "2,000"}
+{"question": "Who do I go to if my manager does not fix my complaint?", "doc_id": "hr/hr-handbook", "page": 38, "must_contain": "raise it with HR"}
+{"question": "Is there free counselling?", "doc_id": "hr/hr-handbook", "page": 39, "must_contain": "six free sessions"}
+{"question": "When is the bonus paid?", "doc_id": "hr/hr-handbook", "page": 20, "must_contain": "April"}
+{"question": "What does error E4017 mean?", "doc_id": "it-kb/E4017", "page": 1, "must_contain": "print server"}
