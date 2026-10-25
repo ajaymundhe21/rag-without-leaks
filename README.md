@@ -1,6 +1,6 @@
 # Search over company documents, without leaking them
 
-![leak-test](https://github.com/OWNER/rag-without-leaks/actions/workflows/ci.yml/badge.svg)
+![leak-test](https://github.com/ajaymundhe21/rag-without-leaks/actions/workflows/ci.yml/badge.svg)
 
 A RAG search bot over a company's own documents, built on Postgres + pgvector, with the one thing most demos skip: **a person only gets answers from documents they are allowed to open.**
 
